@@ -1,5 +1,9 @@
-import { createStore, compose } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import reducer from './reducers/index';
+import createSagaMiddleware from '@redux-saga/core';
+import rootSaga from './sagas';
+
+const sagaMiddleware = createSagaMiddleware();
 
 // This is midleware with DevTools connection
 const composeEnhancers =
@@ -9,8 +13,13 @@ const composeEnhancers =
 
 // This method is create a store
 const configureStore = (preloadedState) =>
-  createStore(reducer, preloadedState, composeEnhancers());
+  createStore(
+    reducer,
+    preloadedState,
+    composeEnhancers(applyMiddleware(sagaMiddleware))
+  );
 
 const store = configureStore({});
+sagaMiddleware.run(rootSaga);
 
 export default store;
