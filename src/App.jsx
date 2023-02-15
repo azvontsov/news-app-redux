@@ -1,33 +1,25 @@
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  increaseCount,
-  decreaseCount,
-  getLatestNews,
-} from './redux/actions/actionCreator';
+import { getNews } from './redux/actions/actionCreator';
+import News from './components/news';
 
 function App() {
-  const count = useSelector((store) => store?.counter?.count);
   const dispatch = useDispatch();
 
-  const incrCount = () => {
-    dispatch(increaseCount());
-  };
-  const decrCount = () => {
-    dispatch(decreaseCount());
-  };
+  const latestNews = useSelector((store) => store?.news?.latestNews || []);
+  const popularNews = useSelector((store) => store?.news?.popularNews || []);
+
   const handleNews = () => {
-    dispatch(getLatestNews());
+    dispatch(getNews());
   };
 
   return (
     <div className="App">
       <div className="logo">
-        <h1>Vite + React</h1>
-        <button onClick={incrCount}>+1</button>
-        <button onClick={decrCount}>-1</button>
+        <h1>News</h1>
         <button onClick={handleNews}>Get News</button>
-        <h1>{count}</h1>
+        <News news={latestNews} title="Latest News" />
+        <News news={popularNews} title="Popular News" />
       </div>
     </div>
   );
