@@ -1,10 +1,11 @@
-import { takeEvery } from '@redux-saga/core/effects';
+import { takeEvery, put, call } from '@redux-saga/core/effects';
 import { GET_LATEST_NEWS } from '../constants';
 import { getLatestNews } from '../../api';
+import { setLatestNews } from '../actions/actionCreator';
 
 export function* workerSaga() {
-  const data = yield getLatestNews();
-  console.log(data);
+  const { hits } = yield call(getLatestNews, 'redux');
+  yield put(setLatestNews(hits));
 }
 
 export function* watchClickSaga() {
