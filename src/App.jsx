@@ -1,6 +1,10 @@
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { increaseCount, decreaseCount } from './redux/actions/actionCreator';
+import {
+  increaseCount,
+  decreaseCount,
+  getLatestNews,
+} from './redux/actions/actionCreator';
 
 function App() {
   const count = useSelector((store) => store?.counter?.count);
@@ -12,6 +16,9 @@ function App() {
   const decrCount = () => {
     dispatch(decreaseCount());
   };
+  const handleNews = () => {
+    dispatch(getLatestNews());
+  };
 
   return (
     <div className="App">
@@ -19,6 +26,7 @@ function App() {
         <h1>Vite + React</h1>
         <button onClick={incrCount}>+1</button>
         <button onClick={decrCount}>-1</button>
+        <button onClick={handleNews}>Get News</button>
         <h1>{count}</h1>
       </div>
     </div>
